@@ -3,7 +3,7 @@ import { Product } from "../models/interfaces/product-props";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ProductCard from "./product-card";
-import SearchBar from "./SearchBar";
+import SearchBar from "./search-component";
 
 const ProductList: React.FC = () => {
   const [products, setProducts] = useState<Product[] | []>([]);
@@ -12,7 +12,8 @@ const ProductList: React.FC = () => {
   useEffect(() => {
     getProducts();
   }, []);
-
+  
+  // fetch products from the backend
   const getProducts = async () => {
     try {
       const response = await fetch("http://localhost:3000/products");
@@ -23,7 +24,8 @@ const ProductList: React.FC = () => {
       console.error("Error fetching products:", error);
     }
   };
-
+ 
+  // handle search results
   const handleSearchResults = (results: Product[]) => {
     setSearchResults(results);
   };
@@ -36,8 +38,13 @@ const ProductList: React.FC = () => {
 
   return (
     <Container>
-      <Row className="mb-3">
-        <Col xs={4}>
+      <Row>
+        <Col xs={12}>
+          <h3>Product Catalog App</h3>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col lg={4} className="m-3">
           <SearchBar onSearchResults={handleSearchResults} />
         </Col>
       </Row>

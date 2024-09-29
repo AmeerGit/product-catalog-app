@@ -10,7 +10,10 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
+         {/* Route for the product list page */}
         <Route path="/" element={<ProductList />} />
+
+         {/* Route for the product details page */}
         <Route path="/product/:id" element={<ProductDetails />} />
       </Routes>
     </Router>

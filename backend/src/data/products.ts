@@ -150,19 +150,6 @@ export const products : Product[] = [
     },
     {
       id: 14,
-      name: 'Gucci Bloom Eau de',
-      category: 'fragrances',
-      description: "Gucci Bloom by Gucci is a floral and captivating fragrance, with notes of tuberose, jasmine, and Rangoon creeper. It's a modern and romantic scent.",
-      price: 79.99,
-      imageUrl: [
-        'https://cdn.dummyjson.com/products/images/fragrances/Gucci%20Bloom%20Eau%20de/1.png',
-        'https://cdn.dummyjson.com/products/images/fragrances/Gucci%20Bloom%20Eau%20de/2.png',
-        'https://cdn.dummyjson.com/products/images/fragrances/Gucci%20Bloom%20Eau%20de/3.png'
-      ]
-    },
-
-    {
-      id: 15,
       name: 'Apple',
       category: 'groceries',
       description: 'Fresh and crisp apples, perfect for snacking or incorporating into various recipes.',

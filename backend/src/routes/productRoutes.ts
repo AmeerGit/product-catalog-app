@@ -4,6 +4,7 @@ import { addProduct, getAllProducts, getProductById, searchProducts } from '../c
 
 const router = express.Router();
 
+// routes for products
 router.post('/', addProduct);
 router.get('/', getAllProducts);
 router.get('/search', searchProducts);

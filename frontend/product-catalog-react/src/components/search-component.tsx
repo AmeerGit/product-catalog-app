@@ -1,15 +1,14 @@
 // frontend/product-catalog-react/src/components/SearchBar.tsx
 import React, { useCallback, useState } from "react";
-import { Form, FormControl, Button } from "react-bootstrap";
+import { Form, FormControl } from "react-bootstrap";
 import { debounce } from "../utils/debounce";
 import { searchProducts } from "../services/api";
+import { SearchBarProps } from "../models/interfaces/product-props";
 
-interface SearchBarProps {
-  onSearchResults: (results: any[]) => void;
-}
 const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults }) => {
   const [query, setQuery] = useState("");
-
+  
+  // debounce the search function and pass the search results to the parent component
   const handleSearch = useCallback(
     debounce(async (searchTerm: string) => {
       const results = await searchProducts(searchTerm);
@@ -17,15 +16,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults }) => {
     }, 500),
     [onSearchResults]
   );
-
+  
+  // handle the search input change and call the search function
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
     handleSearch(value);
-  };
-
-  const handleButtonClick = () => {
-    handleSearch(query);
   };
 
   return (
@@ -39,9 +35,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults }) => {
           value={query}
           onChange={handleChange}
         />
-        <Button variant="primary" onClick={handleButtonClick}>
-          Search
-        </Button>
       </Form>
     </div>
   );
