@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { Product } from "../models/interfaces/product-card-props";
-import { Container, Row, Col, Dropdown } from "react-bootstrap";
+import { Product } from "../models/interfaces/product-props";
+import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ProductCard from "./product-card";
+import SearchBar from "./SearchBar";
 
 const ProductList: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [CatagoryList, setCatagoryList] = useState<Set<string | null>>(new Set());
   const [products, setProducts] = useState<Product[] | []>([]);
+  const [searchResults, setSearchResults] = useState<Product[]>([]);
 
   useEffect(() => {
     getProducts();
@@ -15,84 +15,43 @@ const ProductList: React.FC = () => {
 
   const getProducts = async () => {
     try {
-      const response = await fetch("https://dummyjson.com/products");
+      const response = await fetch("http://localhost:3000/products");
       const data = await response.json();
-      setProducts(data.products);
+      setProducts(data);
+      console.log("Products fetched:", data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
 
-  useEffect(() => {
-    setCatagoryList(() => {
-      const updatedCategoryList = new Set<string | null>();
-      products.forEach((product) => {
-        updatedCategoryList.add(product.category || "");
-      });
-      return updatedCategoryList;
-    });
-  }, [products]);
-
-  const handleCategorySelected = (category: string | null) => {
-    setSelectedCategory(category);
+  const handleSearchResults = (results: Product[]) => {
+    setSearchResults(results);
   };
 
-  const filterProducts = selectedCategory
-    ? products?.filter((product) => product.category === selectedCategory)
-    : products;
-
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
+  const filterProducts = searchResults.length > 0 ? searchResults : products;
 
   if (!products) {
     return <div>Products not found!</div>;
   }
 
-  const categoryElement = Array.from(CatagoryList).map((category) => (
-    <Dropdown.Item
-      key={category}
-      onClick={() => handleCategorySelected(category)}
-    >
-      {category}
-    </Dropdown.Item>
-  ));
-
   return (
     <Container>
+      <Row className="mb-3">
+        <Col xs={4}>
+          <SearchBar onSearchResults={handleSearchResults} />
+        </Col>
+      </Row>
       <Row>
-        <Col xs={12} className="mb-3 text-center">
-          <Dropdown style={{ position: "relative", margin: "20px" }}>
-            <Dropdown.Toggle variant="primary" id="categoryDropdown">
-              {selectedCategory
-                ? `Category: ${selectedCategory}`
-                : "All Categorys"}
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={() => handleCategorySelected("")}>
-                All Category's
-              </Dropdown.Item>
-              {categoryElement}
-            </Dropdown.Menu>
-          </Dropdown>
-        </Col>
-        <Col xs={12}>
-          <Row>
-            {filterProducts?.map((product) => (
-              <Col xs={12} md={4} lg={3} key={product.id} className="mb-3">
-                <Link
-                  to={`/product/${product.id}`}
-                  style={{ textDecoration: "none" }}
-                >
-                  <ProductCard
-                    product={product}
-                    onClick={() => {}}
-                  ></ProductCard>
-                </Link>
-              </Col>
-            ))}
-          </Row>
-        </Col>
+        {filterProducts?.map((product) => (
+          <Col xs={12} md={4} lg={3} key={product.id} className="mb-3">
+            <Link
+              to={`/product/${product.id}`}
+              style={{ textDecoration: "none" }}
+            >
+              <ProductCard product={product} onClick={() => {}}></ProductCard>
+            </Link>
+          </Col>
+        ))}
       </Row>
     </Container>
   );

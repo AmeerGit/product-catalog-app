@@ -35,11 +35,15 @@ export const getProductById = (req: Request, res: Response) => {
 
 export const searchProducts = (req: Request, res: Response) => {
   const searchTerm = req.query.query as string;
+  console.log('Search term:', searchTerm);
   const lowercasedTerm = searchTerm.toLowerCase();
   const results = productList.filter(product => {
-    const distance = calculateFuzzyDistance(product.name.toLowerCase(), lowercasedTerm);
-    const maxDistance = Math.floor(Math.max(product.name.length, lowercasedTerm.length) / 2);
-    return distance <= maxDistance;
+    const productName = product.name.toLowerCase();
+    const distance = calculateFuzzyDistance(productName, lowercasedTerm);
+    const maxDistance = Math.floor(Math.max(productName.length, lowercasedTerm.length) / 2);
+    const isMatch = productName.includes(lowercasedTerm) || distance <= maxDistance;
+    console.log(`Product: ${product.name}, Distance: ${distance}, Max Distance: ${maxDistance}, Is Match: ${isMatch}`);
+    return isMatch;
   });
 
   res.json(results);

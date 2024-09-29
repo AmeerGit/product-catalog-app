@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Product } from "../models/interfaces/product-card-props";
+import { Product } from "../models/interfaces/product-props";
 import { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 
@@ -13,7 +13,7 @@ const ProductDetails: React.FC = () => {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`https://dummyjson.com/products/${id}`);
+        const response = await fetch(`http://localhost:3000/products/${id}`);
         const data = await response.json();
         setProduct(data);
         setLoading(false);
@@ -38,12 +38,9 @@ const ProductDetails: React.FC = () => {
   return (
     <Container>
       <h2>Product Details ID: {id}</h2>
-      <h3>{product?.title}</h3>
+      <h3>{product?.name}</h3>
       <p>{product?.description}</p>
       <p>Price: ${product?.price}</p>
-      <p>Rating: {product?.rating}</p>
-      <p>Stock: {product?.stock}</p>
-      <p>Brand: {product?.brand}</p>
       <p>Category: {product?.category}</p>
       <Button variant="primary" href="/">Back to Products</Button>
     </Container>
