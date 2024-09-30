@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Product } from "../models/interfaces/product-props";
-import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import ProductCard from "./product-card";
-import SearchBar from "./search-component";
+import ProductCard from "./ProductCard";
+import SearchBar from "./searchComponent";
+import "./ProductList.css";
 
 const ProductList: React.FC = () => {
   const [products, setProducts] = useState<Product[] | []>([]);
@@ -19,7 +19,6 @@ const ProductList: React.FC = () => {
       const response = await fetch("http://localhost:3000/products");
       const data = await response.json();
       setProducts(data);
-      console.log("Products fetched:", data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -37,30 +36,19 @@ const ProductList: React.FC = () => {
   }
 
   return (
-    <Container>
-      <Row>
-        <Col xs={12}>
-          <h3>Product Catalog App</h3>
-        </Col>
-      </Row>
-      <Row className="justify-content-center">
-        <Col lg={4} className="m-3">
-          <SearchBar onSearchResults={handleSearchResults} />
-        </Col>
-      </Row>
-      <Row>
+    <div className="container">
+      <div className="wrapper">
+      <h3 className="headerText">Product Catalog App</h3>
+      <SearchBar onSearchResults={handleSearchResults} />
+      </div>
+      <div className="product-list">
         {filterProducts?.map((product) => (
-          <Col xs={12} md={4} lg={3} key={product.id} className="mb-3">
-            <Link
-              to={`/product/${product.id}`}
-              style={{ textDecoration: "none" }}
-            >
-              <ProductCard product={product} onClick={() => {}}></ProductCard>
-            </Link>
-          </Col>
+          <Link key={product.id} to={`/product/${product.id}`} style={{ textDecoration: "none" }} aria-label={`View details for ${product.name}`}>
+            <ProductCard product={product} onClick={() => {}} />
+          </Link>
         ))}
-      </Row>
-    </Container>
+      </div>
+    </div>
   );
 };
 

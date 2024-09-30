@@ -1,9 +1,9 @@
 // frontend/product-catalog-react/src/components/SearchBar.tsx
 import React, { useCallback, useState } from "react";
-import { Form, FormControl } from "react-bootstrap";
 import { debounce } from "../utils/debounce";
 import { searchProducts } from "../services/api";
 import { SearchBarProps } from "../models/interfaces/product-props";
+import "./searchComponent.css";
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults }) => {
   const [query, setQuery] = useState("");
@@ -25,18 +25,16 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults }) => {
   };
 
   return (
-    <div>
-      <Form className="d-flex">
-        <FormControl
+    <>
+        <input
           type="search"
           placeholder="Search for products..."
-          className="me-2"
+          className="search-input"
           aria-label="Search"
           value={query}
           onChange={handleChange}
         />
-      </Form>
-    </div>
+    </>
   );
 };
 

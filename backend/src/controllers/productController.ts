@@ -44,9 +44,8 @@ export const searchProducts = (req: Request, res: Response) => {
     const productName = product.name.toLowerCase();
     const distance = calculateFuzzyDistance(productName, lowercasedTerm);
     const maxDistance = Math.floor(Math.max(productName.length, lowercasedTerm.length) / 2);
-    const isMatch = productName.includes(lowercasedTerm) || distance <= maxDistance;
+    const isMatch = distance <= maxDistance;
     return isMatch;
   });
-
   res.json(results);
 };

@@ -1,14 +1,14 @@
 import './App.css';
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import ProductDetails from './components/product-details';
-import ProductList from './components/product-list';
-import "bootstrap/dist/css/bootstrap.min.css";
 
+const ProductDetails = lazy(() => import('./components/ProductDetails'));
+const ProductList = lazy(() => import('./components/ProductList'));
 
 const App: React.FC = () => {
   return (
     <Router>
+        <Suspense fallback={<div>Loading...</div>}>
       <Routes>
          {/* Route for the product list page */}
         <Route path="/" element={<ProductList />} />
@@ -16,6 +16,7 @@ const App: React.FC = () => {
          {/* Route for the product details page */}
         <Route path="/product/:id" element={<ProductDetails />} />
       </Routes>
+      </Suspense>
     </Router>
   );
 };

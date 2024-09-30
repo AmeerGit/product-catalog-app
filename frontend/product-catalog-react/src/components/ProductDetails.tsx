@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { Product } from "../models/interfaces/product-props";
 import { useEffect, useState } from "react";
-import { Button, Container } from "react-bootstrap";
+import "./ProductDetails.css";
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -36,14 +36,21 @@ const ProductDetails: React.FC = () => {
   }
 
   return (
-    <Container>
+    <div className="product-details-container">
+    <div className="product-details-header">
       <h2>Product Details ID: {id}</h2>
       <h3>{product?.name}</h3>
+    </div>
+    <div className="product-details-content">
       <p>{product?.description}</p>
       <p>Price: ${product?.price}</p>
       <p>Category: {product?.category}</p>
-      <Button variant="primary" href="/">Back to Products</Button>
-    </Container>
+    </div>
+    <div className="product-details-button">
+      <button onClick={() => window.history.back()} aria-label="Back to Products"
+        >Back to Products</button>
+    </div>
+  </div>
   );
 };
 
