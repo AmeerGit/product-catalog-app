@@ -1,29 +1,29 @@
 // frontend/product-catalog-react/src/components/SearchBar.tsx
-import React, { useCallback, useState } from "react";
-import { debounce } from "../../utils/debounce";
+import React, { useEffect, useState } from "react";
+import { useDebounce } from "../../hooks/useDebounce";
 import { searchProducts } from "../../services/api";
 import { SearchBarProps } from "../../models/interfaces/product-props";
 import "./searchComponent.css";
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults }) => {
   const [query, setQuery] = useState("");
-  
-  // debounce the search function and pass the search results to the parent component
-  const handleSearch = useCallback(
-    debounce(async (searchTerm: string) => {
-      if(searchTerm !== "") {
-        const results = await searchProducts(searchTerm);
+  const debouncedQuery = useDebounce(query, 500);
+
+  useEffect(() => {
+    // handle search
+    const handleSearch = async () => {
+      if (debouncedQuery) {
+        const results = await searchProducts(debouncedQuery);
         onSearchResults(results);
       }
-    }, 500),
-    [onSearchResults]
-  );
+    };
+
+    handleSearch();
+  }, [debouncedQuery]);
   
-  // handle the search input change and call the search function
+  // handle search input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setQuery(value);
-    handleSearch(value);
+    setQuery(e.target.value);
   };
 
   return (

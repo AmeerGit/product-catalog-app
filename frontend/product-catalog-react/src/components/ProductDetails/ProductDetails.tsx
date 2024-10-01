@@ -1,31 +1,11 @@
 import { useParams } from "react-router-dom";
 import { Product } from "../../models/interfaces/product-props";
-import { useEffect, useState } from "react";
 import "./ProductDetails.css";
+import { useFetch } from "../../hooks/useFetch";
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
-
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`http://localhost:3000/products/${id}`);
-        const data = await response.json();
-        setProduct(data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching product:", error);
-        setError('Failed to load Product');
-        setLoading(false);
-      }
-    };
-
-    fetchProduct();
-  }, [id]);
+  const { data: product, loading, error } = useFetch<Product>(`http://localhost:3000/products/${id}`);
 
   if (loading) {
     return <div>Loading...</div>;
