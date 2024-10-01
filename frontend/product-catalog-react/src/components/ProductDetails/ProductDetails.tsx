@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Product } from "../models/interfaces/product-props";
+import { Product } from "../../models/interfaces/product-props";
 import { useEffect, useState } from "react";
 import "./ProductDetails.css";
 

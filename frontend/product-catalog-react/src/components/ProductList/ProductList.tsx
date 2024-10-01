@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Product } from "../models/interfaces/product-props";
+import { Product } from "../../models/interfaces/product-props";
 import { Link } from "react-router-dom";
-import ProductCard from "./ProductCard";
-import SearchBar from "./searchComponent";
+import ProductCard from "../ProductCard/ProductCard";
+import SearchBar from "../SearchComponent/searchComponent";
 import "./ProductList.css";
 
 const ProductList: React.FC = () => {

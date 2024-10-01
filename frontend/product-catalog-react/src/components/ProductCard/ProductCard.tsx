@@ -1,4 +1,4 @@
-import { ProductCardProps } from "../models/interfaces/product-props";
+import { ProductCardProps } from "../../models/interfaces/product-props";
 import "./ProductCard.css";
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) => {

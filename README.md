@@ -40,7 +40,10 @@
     ```sh
     npm run dev
     ```
-
+4 . Testing 
+    ```sh
+    npm run test
+    ```
 ## Linting
 
 To lint the frontend code, run:
